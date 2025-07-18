@@ -43,7 +43,7 @@ if(OCP_ENABLE_TESTING)
           )
 
 #  add_test(NAME spe11
-#          COMMAND testOpenCAEPoro ${PROJECT_SOURCE_DIR}/data/spe11/spe11a/spe11a.data method=IMPEC dtInit=0.1 dtMax=1 dtMin=0.1
+#          COMMAND testOpenCAEPoro ${PROJECT_SOURCE_DIR}/data/spe11/spe11a/spe11c.data method=IMPEC dtInit=0.1 dtMax=1 dtMin=0.1
 #          )
 
 endif()

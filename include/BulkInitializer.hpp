@@ -82,7 +82,7 @@ protected:
     USI                      numNodes{ 50 };
     /// reservoir temperature(for constant initialization)
     OCP_DBL                  rsTemp{-1E10};
-
+    OCP_DBL                  spe11depth{120.0};
     /// inital gas pressure
     vector<OCP_DBL>          Pg;
     /// initial reservoir water saturation

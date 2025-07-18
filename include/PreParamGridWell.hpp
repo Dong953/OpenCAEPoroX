@@ -19,6 +19,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include "../config/config.hpp"
 
 // OpenCAEPoroX header files
 #include "OCPConst.hpp"

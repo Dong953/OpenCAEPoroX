@@ -1,0 +1,389 @@
+-- Facies 1
+BCPERM
+*SWIMM    0.32
+*SNIMM    0.10
+*PENTRY   1.935
+*PCMAX    300
+*CWREPERM 1.5
+*CNREPERM 1.5
+*CPC      1.5
+/
+
+-- Facies 2
+BCPERM
+*SWIMM    0.14
+*SNIMM    0.10
+*PENTRY   8.655E-2
+*PCMAX    300
+*CWREPERM 1.5
+*CNREPERM 1.5
+*CPC      1.5
+/
+
+-- Facies 3
+BCPERM
+*SWIMM    0.12
+*SNIMM    0.10
+*PENTRY   6.12E-2
+*PCMAX    300
+*CWREPERM 1.5
+*CNREPERM 1.5
+*CPC      1.5
+/
+
+-- Facies 4
+BCPERM
+*SWIMM    0.12
+*SNIMM    0.10
+*PENTRY   3.87E-2
+*PCMAX    300
+*CWREPERM 1.5
+*CNREPERM 1.5
+*CPC      1.5
+/
+END
+
+-- Facies 5
+BCPERM
+*SWIMM    0.12
+*SNIMM    0.10
+*PENTRY   3.06E-2
+*PCMAX    7
+*PCMAX    300
+*CWREPERM 1.5
+*CNREPERM 1.5
+*CPC      1.5
+/
+
+
+-- Facies 6
+BCPERM
+*SWIMM    0.10
+*SNIMM    0.10
+*PENTRY   2.56E-2
+*PCMAX    300
+*CWREPERM 1.5
+*CNREPERM 1.5
+*CPC      1.5
+/
+
+
+-- Facies 7
+BCPERM
+*SWIMM    NAN
+*SNIMM    NAN
+*PENTRY   NAN
+*PCMAX    NAN
+*CWREPERM NAN
+*CNREPERM NAN
+*CPC      NAN
+/
+
+
+
+RTEMP
+20
+/
+
+SPE11DEP
+1355.0
+/
+
+NCOMPS
+2
+/
+
+ZMFVD
+0.0  0.0  1.0
+/
+
+PSURF
+300
+
+TSURF
+20
+
+
+
+WELLSTRE
+Solvent 0 1 /
+/
+
+
+TUNING
+-- Init     max    min   incre   chop    cut
+     0.01       365    1E-6      5    0.3    0.3                    /
+--  dPlim  dSlim   dNlim   dVerrlim
+     20     0.2       0.3         0.001                                /
+-- itNRmax  NRtol  dPmax  dSmax  dPmin   dSmin   dVerrmax
+       20    1E-3   10    0.2    1E-2      1E-2    0.01          /
+/
+
+
+
+
+
+WELSPECS
+I1  FIELD   55      21      100      GAS /
+I2  FIELD   103     21      50      GAS /
+/
+
+COMPDAT
+I1 55 21 100 100 1* 0.3 2* Z /
+I1 55 22 101 101 1* 0.3 2* Y /
+I1 55 23 101 101 1* 0.3 2* Y /
+I1 55 24 101 101 1* 0.3 2* Y /
+I1 55 25 102 102 1* 0.3 2* Y /
+I1 55 26 102 102 1* 0.3 2* Y /
+I1 55 27 102 102 1* 0.3 2* Y /
+I1 55 28 102 102 1* 0.3 2* Y /
+I1 55 29 103 103 1* 0.3 2* Y /
+I1 55 30 103 103 1* 0.3 2* Y /
+I1 55 31 103 103 1* 0.3 2* Y /
+I1 55 32 103 103 1* 0.3 2* Y /
+I1 55 33 104 104 1* 0.3 2* Y /
+I1 55 34 104 104 1* 0.3 2* Y /
+I1 55 35 104 104 1* 0.3 2* Y /
+I1 55 36 104 104 1* 0.3 2* Y /
+I1 55 37 104 104 1* 0.3 2* Y /
+I1 55 38 105 105 1* 0.3 2* Y /
+I1 55 39 105 105 1* 0.3 2* Y /
+I1 55 40 105 105 1* 0.3 2* Y /
+I1 55 41 105 105 1* 0.3 2* Y /
+I1 55 42 105 105 1* 0.3 2* Y /
+I1 55 43 105 105 1* 0.3 2* Y /
+I1 55 44 105 105 1* 0.3 2* Y /
+I1 55 45 105 105 1* 0.3 2* Y /
+I1 55 46 105 105 1* 0.3 2* Y /
+I1 55 47 105 105 1* 0.3 2* Y /
+I1 55 48 105 105 1* 0.3 2* Y /
+I1 55 49 105 105 1* 0.3 2* Y /
+I1 55 50 106 106 1* 0.3 2* Y /
+I1 55 51 106 106 1* 0.3 2* Y /
+I1 55 52 105 105 1* 0.3 2* Y /
+I1 55 53 105 105 1* 0.3 2* Y /
+I1 55 54 105 105 1* 0.3 2* Y /
+I1 55 55 105 105 1* 0.3 2* Y /
+I1 55 56 105 105 1* 0.3 2* Y /
+I1 55 57 105 105 1* 0.3 2* Y /
+I1 55 58 105 105 1* 0.3 2* Y /
+I1 55 59 105 105 1* 0.3 2* Y /
+I1 55 60 105 105 1* 0.3 2* Y /
+I1 55 61 105 105 1* 0.3 2* Y /
+I1 55 62 105 105 1* 0.3 2* Y /
+I1 55 63 105 105 1* 0.3 2* Y /
+I1 55 64 104 104 1* 0.3 2* Y /
+I1 55 65 104 104 1* 0.3 2* Y /
+I1 55 66 104 104 1* 0.3 2* Y /
+I1 55 67 104 104 1* 0.3 2* Y /
+I1 55 68 104 104 1* 0.3 2* Y /
+I1 55 69 103 103 1* 0.3 2* Y /
+I1 55 70 103 103 1* 0.3 2* Y /
+I1 55 71 103 103 1* 0.3 2* Y /
+I1 55 72 103 103 1* 0.3 2* Y /
+I1 55 73 103 103 1* 0.3 2* Y /
+I1 55 74 102 102 1* 0.3 2* Y /
+I1 55 75 102 102 1* 0.3 2* Y /
+I1 55 76 102 102 1* 0.3 2* Y /
+I1 55 77 101 101 1* 0.3 2* Y /
+I1 55 78 101 101 1* 0.3 2* Y /
+I1 55 79 101 100 1* 0.3 2* Y /
+I1 55 80 100 100 1* 0.3 2* Y /
+I1 55 81 100 100 1* 0.3 2* Y /
+I2 103 21 50 50 1* 0.3 2* Z /
+I2 103 22 50 50 1* 0.3 2* Z /
+I2 103 23 50 50 1* 0.3 2* Y /
+I2 103 24 50 50 1* 0.3 2* Z /
+I2 103 25 50 50 1* 0.3 2* Y /
+I2 103 26 50 50 1* 0.3 2* Y /
+I2 103 27 50 50 1* 0.3 2* Z /
+I2 103 28 50 50 1* 0.3 2* Y /
+I2 103 29 50 50 1* 0.3 2* Y /
+I2 103 30 50 50 1* 0.3 2* Y /
+I2 103 31 50 50 1* 0.3 2* Z /
+I2 103 32 50 50 1* 0.3 2* Y /
+I2 103 33 50 50 1* 0.3 2* Y /
+I2 103 34 50 50 1* 0.3 2* Y /
+I2 103 35 50 50 1* 0.3 2* Z /
+I2 103 36 50 50 1* 0.3 2* Y /
+I2 103 37 50 50 1* 0.3 2* Y /
+I2 103 38 50 50 1* 0.3 2* Y /
+I2 103 39 50 50 1* 0.3 2* Y /
+I2 103 40 50 50 1* 0.3 2* Y /
+I2 103 41 50 50 1* 0.3 2* Z /
+I2 103 42 50 50 1* 0.3 2* Y /
+I2 103 43 50 50 1* 0.3 2* Y /
+I2 103 44 50 50 1* 0.3 2* Y /
+I2 103 45 50 50 1* 0.3 2* Y /
+I2 103 46 50 50 1* 0.3 2* Y /
+I2 103 47 50 50 1* 0.3 2* Y /
+I2 103 48 50 50 1* 0.3 2* Y /
+I2 103 49 50 50 1* 0.3 2* Y /
+I2 103 50 50 50 1* 0.3 2* Y /
+I2 103 51 50 50 1* 0.3 2* Y /
+I2 103 52 50 50 1* 0.3 2* Y /
+I2 103 53 50 50 1* 0.3 2* Y /
+I2 103 54 50 50 1* 0.3 2* Y /
+I2 103 55 50 50 1* 0.3 2* Y /
+I2 103 56 50 50 1* 0.3 2* Y /
+I2 103 57 50 50 1* 0.3 2* Y /
+I2 103 58 50 50 1* 0.3 2* Y /
+I2 103 59 50 50 1* 0.3 2* Y /
+I2 103 60 50 50 1* 0.3 2* Y /
+I2 103 61 50 50 1* 0.3 2* Y /
+I2 103 62 50 50 1* 0.3 2* Y /
+I2 103 63 50 50 1* 0.3 2* Y /
+I2 103 64 50 50 1* 0.3 2* Y /
+I2 103 65 50 50 1* 0.3 2* Z /
+I2 103 66 50 50 1* 0.3 2* Y /
+I2 103 67 50 50 1* 0.3 2* Y /
+I2 103 68 50 50 1* 0.3 2* Y /
+I2 103 69 50 50 1* 0.3 2* Y /
+I2 103 70 50 50 1* 0.3 2* Y /
+I2 103 71 50 50 1* 0.3 2* Z /
+I2 103 72 50 50 1* 0.3 2* Y /
+I2 103 73 50 50 1* 0.3 2* Y /
+I2 103 74 50 50 1* 0.3 2* Y /
+I2 103 75 50 50 1* 0.3 2* Z /
+I2 103 76 50 50 1* 0.3 2* Y /
+I2 103 77 50 50 1* 0.3 2* Y /
+I2 103 78 50 50 1* 0.3 2* Z /
+I2 103 79 50 50 1* 0.3 2* Y /
+I2 103 80 50 50 1* 0.3 2* Y /
+I2 103 81 50 50 1* 0.3 2* Z /
+/
+
+
+WCONINJE
+--d
+--name type   openflag  mode  surface_rate(g/s)    BHP
+I*     Solvent   CLOSE    RATE       1E-15            1E15 /
+/
+
+
+
+TSTEP
+364963.5
+/
+
+TUNING
+-- Init     max    min   incre   chop    cut
+     0.01       36.5    1E-6      5    0.3    0.3                    /
+--  dPlim  dSlim   dNlim   dVerrlim
+     20     0.2       0.3         0.001                                /
+-- itNRmax  NRtol  dPmax  dSmax  dPmin   dSmin   dVerrmax
+       20    1E-3   10    0.2    1E-2      1E-2    0.01          /
+/
+
+WCONINJE
+--d
+--name type   openflag  mode  surface_rate(g/s)    BHP
+I*     Solvent   CLOSE    RATE       1E-15            1E15 /
+/
+
+TSTEP
+36.5
+/
+
+
+TUNING
+-- Init     max    min   incre   chop    cut
+     0.01       3.65    1E-6      5    0.3    0.3                    /
+--  dPlim  dSlim   dNlim   dVerrlim
+     20     0.2       0.3         0.001                                /
+-- itNRmax  NRtol  dPmax  dSmax  dPmin   dSmin   dVerrmax
+       20    1E-3   10    0.2    1E-2      1E-2    0.01          /
+/
+
+
+
+WCONINJE
+--d
+--name type   openflag  mode  surface_rate(g/s)    BHP
+I1     Solvent   OPEN    RATE       4.32E6             1E15 /
+/
+
+TSTEP
+5*1825.0
+/
+
+TUNING
+-- Init     max    min   incre   chop    cut
+     0.01       3.65    1E-6      5    0.3    0.3                    /
+--  dPlim  dSlim   dNlim   dVerrlim
+     20     0.2       0.3         0.001                                /
+-- itNRmax  NRtol  dPmax  dSmax  dPmin   dSmin   dVerrmax
+       20    1E-3   10    0.2    1E-2      1E-2    0.01          /
+/
+
+
+
+WCONINJE
+--d
+--name type   openflag  mode  surface_rate(g/s)    BHP
+I*     Solvent   OPEN    RATE       4.32E6            1E15 /
+/
+
+TSTEP
+5*1825.0
+/
+
+TUNING
+-- Init     max    min   incre   chop    cut
+     0.01       36.5    1E-6      5    0.3    0.3                    /
+--  dPlim  dSlim   dNlim   dVerrlim
+     20     0.2       0.3         0.001                                /
+-- itNRmax  NRtol  dPmax  dSmax  dPmin   dSmin   dVerrmax
+       20    1E-3   10    0.2    1E-2      1E-2    0.01          /
+/
+
+WCONINJE
+--d
+--name type   openflag  mode  surface_rate(g/s)    BHP
+I*     Solvent   CLOSE    RATE       1E-15            1E15 /
+/
+
+TSTEP
+2*9125.0
+/
+
+TUNING
+-- Init     max    min   incre   chop    cut
+     0.01       36.5    1E-6      5    0.3    0.3                    /
+--  dPlim  dSlim   dNlim   dVerrlim
+     20     0.2       0.3         0.001                                /
+-- itNRmax  NRtol  dPmax  dSmax  dPmin   dSmin   dVerrmax
+       20    1E-3   10    0.2    1E-2      1E-2    0.01          /
+/
+
+WCONINJE
+--d
+--name type   openflag  mode  surface_rate(g/s)    BHP
+I*     Solvent   CLOSE    RATE       1E-15            1E15 /
+/
+
+TSTEP
+8*18250.0
+/
+
+TUNING
+-- Init     max    min   incre   chop    cut
+     0.01       36.5    1E-6      5    0.3    0.3                    /
+--  dPlim  dSlim   dNlim   dVerrlim
+     20     0.2       0.3         0.001                                /
+-- itNRmax  NRtol  dPmax  dSmax  dPmin   dSmin   dVerrmax
+       20    1E-3   10    0.2    1E-2      1E-2    0.01          /
+/
+
+
+WCONINJE
+--d
+--name type   openflag  mode  surface_rate(g/s)    BHP
+I*     Solvent   CLOSE    RATE       1E-15            1E15 /
+/
+
+TSTEP
+5*36500.0
+/
+
+

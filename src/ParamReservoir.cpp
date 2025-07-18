@@ -203,6 +203,20 @@ void ParamReservoir::InputRTEMP(ifstream& ifs)
         cout << "RTEMP\n" << rsTemp << endl << endl;
 }
 
+void ParamReservoir::InputSPE11DEPTH(ifstream& ifs)
+{
+    vector<string> vbuf;
+    ReadLine(ifs, vbuf);
+    if (vbuf[0] == "/") return;
+    spe11depth = stod(vbuf[0]);
+
+    if (CURRENT_RANK == MASTER_PROCESS && PRINTINPUT)
+        cout << "\n---------------------" << endl
+             << "SPE11DEPTH"
+             << "\n---------------------" << endl;
+        cout << spe11depth << endl;
+}
+
 
 /// TODO: Add Doxygen
 void ParamReservoir::InputTABLE(ifstream& ifs, const string& tabName)

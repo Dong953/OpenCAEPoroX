@@ -311,7 +311,9 @@ public:
     /// type of unit
     string                   unitType;
     /// Temperature for reservoir.
-    OCP_DBL                  rsTemp; 
+    OCP_DBL                  rsTemp;
+    /// depth for spe11 now (genearte table).
+    OCP_DBL                  spe11depth{120.0};
     /// a set of rock params
     vector<RockParam>        rockSet;
     /// Heat loss property
@@ -406,6 +408,9 @@ public:
 
     /// Input the keyword: RTEMP. RTEMP gives the temperature of reservoir.
     void InputRTEMP(ifstream& ifs);
+
+    /// Input the keyword: SPE11DEPTH. SPE11DEPTH gives the depth of grid for spe11.
+    void InputSPE11DEPTH(ifstream& ifs);
 
     /// Input table, fro example, PVTtable and SATtable such as SWOF, PVCO.
     void InputTABLE(ifstream& ifs, const string& tabName);

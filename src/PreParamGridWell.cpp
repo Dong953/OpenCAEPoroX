@@ -8,6 +8,7 @@
  *  Released under the terms of the GNU Lesser General Public License 3.0 or later.
  *-----------------------------------------------------------------------------------
  */
+#include "../config/config.hpp"
 
 #include "PreParamGridWell.hpp"
 
@@ -180,7 +181,8 @@ void PreParamGridWell::CheckInput()
     }
 #ifdef OCP_USE_GMSH
     else if (gridType == GridType::gmsh) {
-        if (gmshGrid.edges.empty())       OCP_ABORT("WRONG GMSH!");
+        if (gmshGrid.dimen==2 && gmshGrid.edges.empty())       OCP_ABORT("WRONG GMSH!");
+        if (gmshGrid.dimen==3 && gmshGrid.faces.empty())       OCP_ABORT("WRONG GMSH!");
         if (gmshGrid.elements.empty())    OCP_ABORT("WRONG GMSH!");
     }
 #endif
@@ -1640,14 +1642,15 @@ void PreParamGridWell::SetupGmshGrid()
 
     // temp boundary
     if (OCP_TRUE) {
-        for (OCP_ULL n = 0; n < numGridM; n++) {   
-           
-            if (depth[n] > 119) {
-                boundIndex[n] = 1;
-                boundArea[n]  = 1.0 * gmshGrid.thickness; 
-            }
+        for (OCP_ULL n = 0; n < numGridM; n++) {
+            if (gmshGrid.dimen == 2) {
+                if (depth[n] > 119) {
+                    boundIndex[n] = 1;
+                    boundArea[n] = 1.0 * gmshGrid.thickness;
+                }
 
-            depth[n] = 1.2 * 1E2 - depth[n];
+                depth[n] = 1.2 * 1E2 - depth[n];
+            }
         }
     }
 }
@@ -1676,41 +1679,90 @@ void PreParamGridWell::SetupBasicGmshGrid()
             boundArea[n]  = gmshGrid.elements[n].boundArea;
         }
     }
+    if (gmshGrid.dimen == 3) {
+        for (OCP_ULL n = 0; n < numGridM; n++) {
+            v[n]          = gmshGrid.elements[n].area;
+            depth[n]      = gmshGrid.elements[n].center.z; /// Use y-coordinate
+            SATNUM[n]     = gmshGrid.elements[n].phyIndex;
+            PVTNUM[n]     = gmshGrid.elements[n].phyIndex;
+            ROCKNUM[n]    = gmshGrid.elements[n].phyIndex;
+            boundIndex[n] = gmshGrid.elements[n].boundIndex;
+            boundArea[n]  = gmshGrid.elements[n].boundArea;
+        }
+    }
 }
 
 
 void PreParamGridWell::SetupActiveConnGmshGrid()
 {
-
-    OCP_DBL thickNess = 1.0;
     if (gmshGrid.dimen == 2) {
-        thickNess = gmshGrid.thickness;
+        OCP_DBL thickNess = 1.0;
+        if (gmshGrid.dimen == 2) {
+            thickNess = gmshGrid.thickness;
+        }
+
+        gNeighbor.resize(activeGridNum);
+        // PreAllocate
+        for (OCP_ULL n = 0; n < activeGridNum; n++) {
+            gNeighbor[n].reserve(10);
+        }
+
+        OCP_SLL bIdg, eIdg, bIdb, eIdb;
+        OCP_DBL areaB, areaE;
+        for (const auto &e: gmshGrid.edges) {
+
+            if (e.faceIndex.size() <= 2) continue;  // boundary
+
+            bIdg = e.faceIndex[0];
+            eIdg = e.faceIndex[2];
+
+            bIdb = actGC.map_All2Act[bIdg];
+            eIdb = actGC.map_All2Act[eIdg];
+
+            if (bIdb >= 0 && eIdb >= 0) {
+
+                areaB = e.area[0] * thickNess;
+                areaE = e.area[1] * thickNess;
+                gNeighbor[bIdb].push_back(ConnPair(eIdb, WEIGHT_GG, ConnDirect::usg, areaB, areaE));
+                gNeighbor[eIdb].push_back(ConnPair(bIdb, WEIGHT_GG, ConnDirect::usg, areaE, areaB));
+            }
+        }
     }
+    else {
+        gNeighbor.resize(activeGridNum);
+        for (auto &nbrs : gNeighbor) nbrs.reserve(10);
+        // Reference to the full point array
+        const auto &allPoints = gmshGrid.points;
+        // 遍历所有面
+        for (const auto &f : gmshGrid.faces) {
+            // face.faceIndex 应该存了 [elemA, localFaceA, elemB, localFaceB]
+            // boundary 面只有单侧，其 size() < 4，这里跳过
+            if (f.faceIndex.size() < 4) continue;
 
-    gNeighbor.resize(activeGridNum);
-    // PreAllocate
-    for (OCP_ULL n = 0; n < activeGridNum; n++) {
-        gNeighbor[n].reserve(10);
-    }
+            // 全局单元编号
+            OCP_ULL aG = f.faceIndex[0], bG = f.faceIndex[2];
+            // 活跃单元编号
+            INT aB = actGC.map_All2Act[aG];
+            INT bB = actGC.map_All2Act[bG];
+            if (aB < 0 || bB < 0) continue;
 
-    OCP_SLL bIdg, eIdg, bIdb, eIdb;
-    OCP_DBL areaB, areaE;
-    for (const auto& e : gmshGrid.edges) {
-       
-        if (e.faceIndex.size() <= 2)  continue;  // boundary
+            // 计算面面积（将多边形分成扇形三角形求和）
+            auto computeFaceArea = [&](const vector<OCP_ULL>& nodes) {
+                Point3D p0(&allPoints[3 * nodes[0]]);
+                OCP_DBL area = 0;
+                for (int i = 1; i + 1 < (int)nodes.size(); ++i) {
+                    Point3D pi(&allPoints[3 * nodes[i]]),
+                            pj(&allPoints[3 * nodes[i+1]]);
+                    Point3D cross = CrossProduct(pi - p0, pj - p0);
+                    area += sqrt(cross * cross) * 0.5;
+                }
+                return area;
+            };
 
-        bIdg = e.faceIndex[0];
-        eIdg = e.faceIndex[2];
-
-        bIdb = actGC.map_All2Act[bIdg];
-        eIdb = actGC.map_All2Act[eIdg];
-
-        if (bIdb >= 0 && eIdb >= 0) {
-            
-            areaB = e.area[0] * thickNess;
-            areaE = e.area[1] * thickNess;
-            gNeighbor[bIdb].push_back(ConnPair(eIdb, WEIGHT_GG, ConnDirect::usg, areaB, areaE));
-            gNeighbor[eIdb].push_back(ConnPair(bIdb, WEIGHT_GG, ConnDirect::usg, areaE, areaB));
+            OCP_DBL area = computeFaceArea(f.nodes);
+            // 插入邻接，两个方向
+            gNeighbor[aB].emplace_back(bB, WEIGHT_GG, ConnDirect::usg, area, area);
+            gNeighbor[bB].emplace_back(aB, WEIGHT_GG, ConnDirect::usg, area, area);
         }
     }
 }
@@ -1743,6 +1795,10 @@ void PreParamGridWell::OutputPointsGmshGrid()
             else if (ep.size() == 4) {
                 cell_type.push_back(VTK_QUAD);
                 cell_points.push_back(4);
+            }
+            else if (ep.size() == 8) {
+                cell_type.push_back(VTK_HEXAHEDRON);  // ✅ 新增支持六面体
+                cell_points.push_back(8);
             }
             for (const auto& p : ep) {
                 cell_points.push_back(p);

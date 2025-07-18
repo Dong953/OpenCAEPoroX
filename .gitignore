@@ -79,3 +79,5 @@ build/
 
 .idea/
 config/user.cmake
+*.DS_Store
+*.tmpinfo

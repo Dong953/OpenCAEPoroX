@@ -10,7 +10,7 @@
  */
 
 #include "OCPGroupProcess.hpp"
-
+#include "../config/config.hpp"
 /// Average number of processes per process group when partitioning with METIS
 static const int METIS_AVNP = 50;
 static real_t ubvec = 1.10;

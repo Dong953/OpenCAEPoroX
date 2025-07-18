@@ -144,7 +144,11 @@ void ParamRead::ReadFile(const string& filename)
             case Map_Str2Int("RTEMP", 5):
                 paramRs.InputRTEMP(ifs);
                 break;
-                
+
+            case Map_Str2Int("SPE11DEP", 8):
+                paramRs.InputSPE11DEPTH(ifs);
+                break;
+
             case Map_Str2Int("SWFN", 4):
             case Map_Str2Int("SWOF", 4):
             case Map_Str2Int("SWGF", 4):

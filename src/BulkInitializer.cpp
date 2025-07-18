@@ -14,7 +14,8 @@
 
 void BulkInitializer::Setup(const ParamReservoir& rs_param, const OCPMixtureType& mixType)
 {
-	initType = rs_param.initType;
+	spe11depth = rs_param.spe11depth;
+    initType = rs_param.initType;
 	rsTemp   = rs_param.rsTemp;
 	// for hydrostatic equilibrium
 	if (initType == InitType::EQUIL) {
@@ -176,8 +177,8 @@ void BulkInitializer::InitHydroEquilW(BulkVarSet& bvs, const PVTModule& PVTm, co
 	auto PVT = PVTm.GetPVT(0);
 
 	/// calculate initial pressure for each bulk
-	numNodes = 100;
-	const OCP_DBL tabdz = (1.2 * 1E2 - 0) / (numNodes - 1);
+	numNodes = 1000;
+	const OCP_DBL tabdz = (spe11depth - 0) / (numNodes - 1);
 	vector<OCP_DBL> Ztmp(numNodes, Dref);
 	vector<OCP_DBL> Potmp(numNodes, 0);
 	vector<OCP_DBL> Pgtmp(numNodes, 0);

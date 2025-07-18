@@ -8,6 +8,7 @@
  *  Released under the terms of the GNU Lesser General Public License 3.0 or later.
  *-----------------------------------------------------------------------------------
  */
+#include "../config/config.hpp"
 
 #ifdef OCP_USE_GMSH
 
@@ -21,10 +22,10 @@
 #include <stdlib.h>
 #include <vector>
 #include <set>
-
+#include <algorithm>
 // Gmsh header files
-#include <gmsh.h>
 
+#include <gmsh.h>
 // OpenCAEPoroX header files
 #include "UtilInput.hpp"
 #include "UtilMesh.hpp"
@@ -76,6 +77,37 @@ public:
     mutable vector<OCP_DBL> area;
 };
 
+class Face
+{
+public:
+    Face(const vector<OCP_ULL>& nodes_in,
+         const string& physical_in,
+         const USI& phyIndex_in,
+         const OCP_ULL& tag_in)
+            : nodes(nodes_in)              // 必须按成员声明的顺序来写
+            , tag(tag_in)
+            , physical(physical_in)
+            , phyIndex(static_cast<OCP_USI>(1) << phyIndex_in)
+    {
+        std::sort(nodes.begin(), nodes.end());
+    }
+
+    auto operator<(const Face& other) const {
+        return nodes < other.nodes;
+    }
+
+public:
+    /// indices of nodes forming the face (sorted)
+    vector<OCP_ULL>       nodes;
+    /// tag of face (for debug)
+    OCP_ULL               tag;
+    /// physical info (for debug)
+    string                physical;
+    /// binary-encoded physical index
+    OCP_USI               phyIndex;
+    /// indices of the two adjacent elements (global element indices)
+    mutable vector<OCP_ULL> faceIndex;
+};
 
 class OCP_Polygon
 {
@@ -86,6 +118,7 @@ public:
     void CalCenter(const vector<OCP_DBL>& points);
     /// Calculate the area
     void CalArea(const vector<OCP_DBL>& points);
+    void CalArea3D(const vector<OCP_DBL>& points);
     /// judge if a point is in the element
     OCP_BOOL IfPointInElement(const Point3D& objP, const vector<OCP_DBL>& points);
 
@@ -150,9 +183,12 @@ public:
 
 protected:
     void InputGrid2D(const string& file);
+    void InputGrid3D(const string& file);
     void Setup();
     void CalAreaCenter2D();
+    void CalAreaCenter3D();
     void SetupConnAreaAndBoundary2D();
+    void SetupConnAreaAndBoundary3D();
 
 
 public:
@@ -164,6 +200,7 @@ public:
     vector<OCP_DBL>        points;
     /// edges (for 2d now)
     set<Edge>              edges;
+    set<Face>              faces;
     /// elements (for 2d now)
     vector<OCP_Polygon>        elements;
     /// Facies

@@ -16,7 +16,6 @@ cmake_policy(SET CMP0076 NEW)
 set(USER_CONFIG "${CMAKE_CURRENT_SOURCE_DIR}/config/user.cmake" CACHE PATH "Path to optional user configuration file.")
 include("${USER_CONFIG}" OPTIONAL)
 include("${CMAKE_CURRENT_SOURCE_DIR}/config/defaults.cmake")
-
 # Name of the project: should appear after find_program
 project(OpenCAEPoroX C CXX)
 
@@ -30,12 +29,12 @@ endif()
 
 # Do not skip the full RPATH for the build tree
 set(CMAKE_SKIP_BUILD_RPATH FALSE)
- 
 # When building, don't use the install RPATH already
 set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
 set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 # Add the automatically determined parts of the RPATH
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+
 
 # Set module lookup path
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/config/cmake/modules)
@@ -64,6 +63,7 @@ else()
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 ")
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG -Wall -g")
 endif()
+
 
 
 ###############################################################################
@@ -108,9 +108,12 @@ if (OCP_USE_FASP4BLKOIL)
     find_package(FASP4BLKOIL REQUIRED)
 endif()
 
+if (OCP_USE_GMSH)
+    find_package(GMSH REQUIRED)
+endif()
 
 # Find third-party libraries
-set(OCP_TPLS OPENMP LAPACK BLAS METIS PARMETIS PETSC PETSCSOLVER FASP FASP4BLKOIL MPI_CXX)
+set(OCP_TPLS OPENMP LAPACK BLAS METIS PARMETIS PETSC PETSCSOLVER FASP FASP4BLKOIL MPI_CXX GMSH)
 #
 set(TPL_LIBRARIES "")
 set(TPL_INCLUDE_DIRS "")
@@ -138,7 +141,6 @@ add_subdirectory(main)
 
 # Link third-party libraries
 target_link_libraries(${LIBNAME} PUBLIC ${TPL_LIBRARIES})
-
 add_subdirectory(config)
 
 #
@@ -153,7 +155,6 @@ file(WRITE "${PROJECT_BINARY_DIR}/config.hpp"
 
 target_compile_definitions(OpenCAEPoroX PUBLIC "OCP_CONFIG_FILE=\"${PROJECT_BINARY_DIR}/config/tpl_config.hpp\"")
 
-
 # set default build type: Release
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release" CACHE STRING "the build type" FORCE)
@@ -167,11 +168,9 @@ if(WIN32)
 	target_link_libraries(${LIBNAME} PUBLIC MPI::MPI_CXX)
 endif()
 
-
 ###############################################################################
 ## Installtion targets for lib and executable files
 ###############################################################################
-
 # Set install location for OpenCAEPoroX library
 set(CMAKE_INSTALL_LIBDIR "${PROJECT_SOURCE_DIR}/lib/")
 install(TARGETS OpenCAEPoroX
